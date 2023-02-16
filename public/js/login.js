@@ -2,9 +2,8 @@ import '@babel/polyfill';
 import { showAlert } from './alerts';
 
 export const login = async (email, password) => {
-  console.log(email, password);
   try {
-    const res = await fetch('http://127.0.0.1:3000/api/v1/users/login', {
+    const res = await fetch('/api/v1/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -15,7 +14,6 @@ export const login = async (email, password) => {
       })
     });
 
-    console.log(res);
     const data = await res.json();
     console.log(data);
 
@@ -32,7 +30,7 @@ export const login = async (email, password) => {
 
 export const logout = async () => {
   try {
-    const res = await fetch('http://127.0.0.1:3000/api/v1/users/logout');
+    const res = await fetch('/api/v1/users/logout');
     const data = await res.json();
 
     if (data.status === 'success') location.assign('/');

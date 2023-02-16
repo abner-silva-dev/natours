@@ -7,7 +7,6 @@ import { bookTour } from './stripe';
 
 const getInputsForm = form => {
   const dataArr = [...new FormData(form)];
-  console.log(dataArr);
   const data = Object.fromEntries(dataArr);
   return data;
 };
