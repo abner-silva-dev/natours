@@ -11,19 +11,17 @@ const signToken = id =>
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 
-const createSendToken = (user, statusCode, res, sendUser = false) => {
+const createSendToken = (user, statusCode, req, res, sendUser = false) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+
+  res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
 
-    httpOnly: true
-  };
-
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = false;
-
-  res.cookie('jwt', token, cookieOptions);
+    httpOnly: true,
+    secure: req.secure || req.headers('x-forwaded-proto') === 'https'
+  });
 
   // Remove password from output
   user.password = undefined;
@@ -57,7 +55,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   await new Email(newUser, url).sendWelcome();
 
-  createSendToken(newUser, 201, res, true);
+  createSendToken(newUser, 201, req, res, true);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -74,7 +72,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
 
   // 3) If everything ok, send token to client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -159,7 +157,6 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-
     if (!roles.includes(req.user.role))
       return next(
         new AppError('You do not have permission to perfom this action', 401)
@@ -249,5 +246,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: true });
 
   // 4) Log user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });

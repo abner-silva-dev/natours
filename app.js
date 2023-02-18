@@ -21,6 +21,9 @@ const bookingRouter = require('./routes/bookingRoutes');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
