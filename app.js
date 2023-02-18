@@ -28,10 +28,15 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARE
+// Implement CORS
+// app.use(cors());
+// app.options('*', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // SET SECURITY HTTP HEADERS
+// app.use(helmet());
 app.use(
   cors({
     origin: '*',
