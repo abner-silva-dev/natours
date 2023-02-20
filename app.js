@@ -21,8 +21,6 @@ const bookingRouter = require('./routes/bookingRoutes');
 const cookieParser = require('cookie-parser');
 const bookingController = require('./controllers/bookingController');
 
-webhookCheckout;
-
 const app = express();
 
 app.enable('trust proxy');
