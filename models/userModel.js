@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema({
       // This only work on CREATE and SAVE!
       validator: function(el) {
         return el === this.password;
-      }
+      },
+      message: () => 'Passwords do not match'
     }
   },
   passwordChangedAt: Date,
@@ -82,7 +83,6 @@ userSchema.methods.correctPassword = async function(
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = +this.passwordChangedAt.getTime() / 1000;
-    console.log(changedTimestamp, JWTTimestamp);
 
     // TRUE means change
     return JWTTimestamp < changedTimestamp;

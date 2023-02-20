@@ -3,15 +3,22 @@ import { showAlert } from './alerts';
 // type is either 'password' or 'data'
 export const updateSettings = async (data, type) => {
   try {
-    const url =
-      type === 'password'
-        ? '/api/v1/users/updateMyPassword'
-        : '/api/v1/users/updateMe';
-
-    const res = await fetch(url, {
+    let url;
+    let optionsFetch = {
       method: 'PATCH',
       body: data
-    });
+    };
+
+    if (type === 'password') {
+      url = '/api/v1/users/updateMyPassword';
+      optionsFetch.headers = {
+        'Content-Type': 'application/json'
+      };
+    } else {
+      url = '/api/v1/users/updateMe';
+    }
+
+    const res = await fetch(url, optionsFetch);
     const dataAPI = await res.json();
 
     if (!res.ok) throw new Error(dataAPI.message);

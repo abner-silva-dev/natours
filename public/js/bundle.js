@@ -6857,30 +6857,29 @@ var login = /*#__PURE__*/function () {
           return res.json();
         case 6:
           data = _context.sent;
-          console.log(data);
           if (res.ok) {
-            _context.next = 10;
+            _context.next = 9;
             break;
           }
           throw new Error(data.message);
-        case 10:
+        case 9:
           if (data.status === 'success') {
             (0, _alerts.showAlert)('success', 'Logged in successfully!');
             setTimeout(function () {
               return location.assign('/');
             }, 1500);
           }
-          _context.next = 16;
+          _context.next = 15;
           break;
-        case 13:
-          _context.prev = 13;
+        case 12:
+          _context.prev = 12;
           _context.t0 = _context["catch"](0);
           (0, _alerts.showAlert)('error', _context.t0.message);
-        case 16:
+        case 15:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 13]]);
+    }, _callee, null, [[0, 12]]);
   }));
   return function login(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -7119,46 +7118,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // type is either 'password' or 'data'
 var updateSettings = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(data, type) {
-    var url, res, dataAPI;
+    var url, optionsFetch, res, dataAPI;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          url = type === 'password' ? '/api/v1/users/updateMyPassword' : '/api/v1/users/updateMe';
-          _context.next = 4;
-          return fetch(url, {
+          optionsFetch = {
             method: 'PATCH',
             body: data
-          });
-        case 4:
+          };
+          if (type === 'password') {
+            url = '/api/v1/users/updateMyPassword';
+            optionsFetch.headers = {
+              'Content-Type': 'application/json'
+            };
+          } else {
+            url = '/api/v1/users/updateMe';
+          }
+          _context.next = 5;
+          return fetch(url, optionsFetch);
+        case 5:
           res = _context.sent;
-          _context.next = 7;
+          _context.next = 8;
           return res.json();
-        case 7:
+        case 8:
           dataAPI = _context.sent;
           if (res.ok) {
-            _context.next = 10;
+            _context.next = 11;
             break;
           }
           throw new Error(dataAPI.message);
-        case 10:
+        case 11:
           if (dataAPI.status === 'success') {
             (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " update successfully!"));
             setTimeout(function () {
               return location.assign('/me');
             }, 1500);
           }
-          _context.next = 16;
+          _context.next = 17;
           break;
-        case 13:
-          _context.prev = 13;
+        case 14:
+          _context.prev = 14;
           _context.t0 = _context["catch"](0);
           (0, _alerts.showAlert)('error', _context.t0.message);
-        case 16:
+        case 17:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 13]]);
+    }, _callee, null, [[0, 14]]);
   }));
   return function updateSettings(_x, _x2) {
     return _ref.apply(this, arguments);
@@ -7422,7 +7429,7 @@ if (userPasswordForm) {
             document.querySelector('.btn--save-password').textContent = 'Updating...';
             data = getInputsForm(userPasswordForm);
             _context.next = 5;
-            return (0, _updateSettings.updateSettings)(data, 'password');
+            return (0, _updateSettings.updateSettings)(JSON.stringify(data), 'password');
           case 5:
             document.querySelector('.btn--save-password').textContent = 'Save password';
             removeInputsForm(userPasswordForm);

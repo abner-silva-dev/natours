@@ -60,7 +60,7 @@ if (userPasswordForm) {
     e.preventDefault();
     document.querySelector('.btn--save-password').textContent = 'Updating...';
     const data = getInputsForm(userPasswordForm);
-    await updateSettings(data, 'password');
+    await updateSettings(JSON.stringify(data), 'password');
     document.querySelector('.btn--save-password').textContent = 'Save password';
     removeInputsForm(userPasswordForm);
   });
