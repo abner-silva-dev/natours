@@ -28,32 +28,37 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARE
+// Implement CORS
+app.use(cors());
+app.options('*', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // SET SECURITY HTTP HEADERS
-app.use(
-  cors({
-    origin: '*',
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200
-  })
-);
+// app.use(helmet());
+// app.use(
+//   cors({
+//     origin: '*',
+//     credentials: true, //access-control-allow-credentials:true
+//     optionSuccessStatus: 200
+//   })
+// );
 
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-    crossOriginResourcePolicy: {
-      allowOrigins: ['*']
-    },
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ['*'],
-        scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"]
-      }
-    }
-  })
-);
+// app.use(
+//   helmet({
+//     crossOriginEmbedderPolicy: false,
+//     crossOriginResourcePolicy: {
+//       allowOrigins: ['*']
+//     },
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ['*'],
+//         scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"]
+//       }
+//     }
+//   })
+// );
 
 // Develoment logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
