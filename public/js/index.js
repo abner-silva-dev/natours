@@ -4,6 +4,7 @@ import { displayMap } from './mapbox';
 import { logout } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts';
 
 const getInputsForm = form => {
   const dataArr = [...new FormData(form)];
@@ -73,3 +74,6 @@ if (bookBtn) {
     await bookTour(tourId);
   });
 }
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 20);
