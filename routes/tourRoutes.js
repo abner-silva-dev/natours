@@ -2,10 +2,21 @@ const express = require('express');
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
 const reviewRouter = require('./reviewRoutes');
+const bookingRouter = require('./bookingRoutes');
+const handlerFactory = require('./../controllers/handlerFactory');
 
 const router = express.Router();
 
-router.use('/:id/reviews', reviewRouter);
+router.use(
+  '/:id/reviews',
+  handlerFactory.setNestedRouteParam('tour'),
+  reviewRouter
+);
+router.use(
+  '/:id/bookings',
+  handlerFactory.setNestedRouteParam('tour'),
+  bookingRouter
+);
 
 router
   .route('/top-5-cheap')

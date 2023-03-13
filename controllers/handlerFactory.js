@@ -66,7 +66,9 @@ exports.getOne = (Model, popOptions) => {
 exports.getAll = Model => {
   return catchAsync(async (req, res, next) => {
     // To allow for nested GET reviews on Tour (Hack)
-    let filter = req.params.id ? { tour: req.params.id } : {};
+    // let filter = req.params.id ? { tour: req.params.id } : {};
+
+    let filter = req.params.type || {};
 
     // EXECUTE QUERY
     const feature = new APIFeatures(Model.find(filter), req.query)
@@ -89,3 +91,20 @@ exports.getAll = Model => {
     });
   });
 };
+
+exports.setNestedRouteParam = type =>
+  catchAsync(async (req, res, next) => {
+    switch (type) {
+      case 'user':
+        req.type = { user: req.params.id };
+        break;
+      case 'review':
+        req.type = { review: req.params.id };
+        break;
+      case 'tour':
+        req.type = { tour: req.params.id };
+      default:
+        req.type = undefined;
+    }
+    next();
+  });

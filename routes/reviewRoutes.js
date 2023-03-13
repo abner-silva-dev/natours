@@ -1,12 +1,18 @@
 const express = require('express');
-const reviewController = require('./../controllers/reviewController');
-const authController = require('./../controllers/authController');
+const reviewController = require('../controllers/reviewController');
+const authController = require('../controllers/authController');
 
 // mergeParams allow get url params of other routes
 const router = express.Router({ mergeParams: true });
-// POST: tour/23422/review
 
 router.use(authController.protect);
+
+router.use('/', (req, res, next) => {
+  console.log(req.baseUrl);
+  console.log(req.path);
+  console.log('Estoy en los bookings');
+  next();
+});
 
 router
   .route('/')

@@ -44,7 +44,7 @@ reviewSchema.pre(/^find/, function(next) {
 
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
-// THIS point to current model
+// THIS point to current model (colection)
 reviewSchema.statics.calcAverageRatings = async function(tourId) {
   let [stats] = await this.aggregate([
     {
