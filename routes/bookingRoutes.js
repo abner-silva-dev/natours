@@ -17,10 +17,7 @@ router.use(
 
 router
   .route('/')
-  .get((_, __, next) => {
-    console.log('Estoy en los bookings');
-    next();
-  }, bookingController.getAllBookings)
+  .get(bookingController.getAllBookings)
   .post(bookingController.createBooking);
 
 router

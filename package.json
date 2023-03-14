@@ -2,14 +2,14 @@
   "name": "natours",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "./public/js/bundle.js",
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production&&nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundle.js",
+    "build:js": "parcel build ./public/js/index.js"
   },
   "author": "Abner Silva",
   "license": "ISC",
@@ -40,10 +40,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.19",
-    "parcel-bundler": "^1.12.5",
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "parcel": "^2.8.3"
   },
   "engines": {
-    "node": "^16"
+    "node": "^18"
   }
 }

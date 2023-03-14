@@ -5,6 +5,8 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
+const Tour = require('./../models/tourModel');
+const Booking = require('./../models/bookingModel');
 
 const signToken = id =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -147,11 +149,33 @@ exports.isLoggedIn = async (req, res, next) => {
       if (currentUser.changedPasswordAfter(decoded.iat)) return next();
 
       // THERE IS A LOGGED IN USER
+      console.log(currentUser);
+      req.user = currentUser;
       res.locals.user = currentUser;
     } catch (err) {
       return next();
     }
   }
+  next();
+};
+
+// Verify if user bought a tour
+exports.boughtTour = async (req, res, next) => {
+  // 1) verify if exist user if not bough is false
+  res.locals.boughtTour = false;
+  if (!req.user) return next();
+
+  // 2) find if exist a booking
+  const tourId = (await Tour.findOne({ slug: req.params.slug })).id;
+  const booking = await Booking.findOne({
+    tour: tourId,
+    user: req.user._id
+  });
+
+  if (!booking) return next();
+
+  // 3) An User bought this tour
+  res.locals.boughtTour = true;
   next();
 };
 

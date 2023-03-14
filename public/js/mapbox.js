@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-
 export const displayMap = locations => {
   mapboxgl.accessToken =
     'pk.eyJ1IjoiYWJuZXItZGV2IiwiYSI6ImNsZDNudmo3cDAzcnQzcHBjYTdvcjZkYWEifQ.-mHsAuY7iZdt3W7WqBkCRQ';
