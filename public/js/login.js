@@ -20,7 +20,7 @@ export const signup = async ({ name, email, password, passwordConfirm }) => {
     if (!res.ok) throw new Error(data.message);
 
     if (data.status === 'success') {
-      showAlert('success', 'Logged in successfully!');
+      showAlert('success', `Welcome! ${name}`);
       setTimeout(() => location.assign('/'), 1500);
     }
   } catch (err) {
@@ -38,6 +38,55 @@ export const login = async (email, password) => {
       body: JSON.stringify({
         email,
         password
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message);
+
+    if (data.status === 'success') {
+      showAlert('success', 'Logged in successfully!');
+      setTimeout(() => location.assign('/'), 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.message);
+  }
+};
+export const forgotPassword = async email => {
+  try {
+    const res = await fetch('/api/v1/users/forgotPassword', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message);
+
+    if (data.status === 'success') {
+      showAlert('success', 'token was sent to your email!', 10);
+    }
+  } catch (err) {
+    showAlert('error', err.message);
+  }
+};
+
+export const recoverAccount = async (password, passwordConfirm, token) => {
+  try {
+    const res = await fetch(`/api/v1/users/resetPassword/${token}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        password,
+        passwordConfirm
       })
     });
 

@@ -1,4 +1,4 @@
-import { login, signup } from './login';
+import { login, signup, forgotPassword, recoverAccount } from './login';
 import { displayMap } from './mapbox';
 import { logout } from './login';
 import { updateSettings } from './updateSettings';
@@ -20,6 +20,8 @@ const removeInputsForm = form => {
 const mapBox = document.querySelector('#map');
 const loginForm = document.querySelector('.form--login');
 const singUpForm = document.querySelector('.form--signup');
+const forgotPasswordForm = document.querySelector('.form--forgotPassword');
+const recoverAccountForm = document.querySelector('.form--recoverAccount');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
@@ -48,6 +50,24 @@ if (loginForm) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     login(email, password);
+  });
+}
+
+if (forgotPasswordForm) {
+  forgotPasswordForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    forgotPassword(email);
+  });
+}
+
+if (recoverAccountForm) {
+  recoverAccountForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    const token = window.location.href.split('/').at(-1);
+    recoverAccount(password, passwordConfirm, token);
   });
 }
 

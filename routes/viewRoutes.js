@@ -22,6 +22,9 @@ router.get(
 );
 router.get('/login', authController.isLoggedIn, viewController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewController.signUp);
+router.get('/forgotPassword', viewController.forgotPassword);
+router.get('/resetPassword/:token', viewController.recoverAccount);
+
 router.get('/me', authController.protect, viewController.getAccount);
 router.get('/my-tours', authController.protect, viewController.getMyTours);
 router.post(

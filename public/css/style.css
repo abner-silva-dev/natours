@@ -203,6 +203,12 @@ body {
   cursor: pointer;
 }
 
+.btn--forgot-password {
+  background-color: none;
+  color: #2e864b;
+  font-size: 1.6rem;
+}
+
 .btn--bought {
   font-size: 1.6rem;
   font-weight: 700;
@@ -234,6 +240,10 @@ body {
 .btn:focus {
   outline: none;
   background-color: #2e864b;
+}
+
+.btn--forgot-password.btn:focus {
+  background-color: #fff;
 }
 
 .btn--white {
@@ -1284,6 +1294,11 @@ body {
 }
 .form__input::-webkit-input-placeholder {
   color: #bbb;
+}
+
+.form__group-btn {
+  display: flex;
+  justify-content: space-around;
 }
 
 .form__group:not(:last-child) {

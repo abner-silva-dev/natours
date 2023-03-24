@@ -58,6 +58,17 @@ exports.signUp = catchAsync(async (req, res, next) => {
   res.status(200).render('signup', { title: 'Create your account' });
 });
 
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  res.status(200).render('forgotPassword', { title: 'recover your account' });
+});
+
+exports.recoverAccount = catchAsync(async (req, res, next) => {
+  res.status(200).render('recoverAccount', {
+    title: 'Create new password',
+    token: req.params.token
+  });
+});
+
 exports.getAccount = catchAsync(async (req, res, next) => {
   res.status(200).render('account', { title: 'Your account' });
 });

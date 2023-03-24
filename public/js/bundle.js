@@ -28,7 +28,7 @@ const $d77c3630eda1238d$export$7200a869094fec36 = async ({ name: name , email: e
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
         if (data.status === "success") {
-            (0, $161e2f81030591bc$export$de026b00723010c1)("success", "Logged in successfully!");
+            (0, $161e2f81030591bc$export$de026b00723010c1)("success", `Welcome! ${name}`);
             setTimeout(()=>location.assign("/"), 1500);
         }
     } catch (err) {
@@ -45,6 +45,46 @@ const $d77c3630eda1238d$export$596d806903d1f59e = async (email, password)=>{
             body: JSON.stringify({
                 email: email,
                 password: password
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        if (data.status === "success") {
+            (0, $161e2f81030591bc$export$de026b00723010c1)("success", "Logged in successfully!");
+            setTimeout(()=>location.assign("/"), 1500);
+        }
+    } catch (err) {
+        (0, $161e2f81030591bc$export$de026b00723010c1)("error", err.message);
+    }
+};
+const $d77c3630eda1238d$export$66791fb2cfeec3e = async (email)=>{
+    try {
+        const res = await fetch("/api/v1/users/forgotPassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        if (data.status === "success") (0, $161e2f81030591bc$export$de026b00723010c1)("success", "token was sent to your email!", 10);
+    } catch (err) {
+        (0, $161e2f81030591bc$export$de026b00723010c1)("error", err.message);
+    }
+};
+const $d77c3630eda1238d$export$5e6ce816cc4182a = async (password, passwordConfirm, token)=>{
+    try {
+        const res = await fetch(`/api/v1/users/resetPassword/${token}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                password: password,
+                passwordConfirm: passwordConfirm
             })
         });
         const data = await res.json();
@@ -172,6 +212,8 @@ const $e69319f6da3eb3f2$var$removeInputsForm = (form)=>{
 const $e69319f6da3eb3f2$var$mapBox = document.querySelector("#map");
 const $e69319f6da3eb3f2$var$loginForm = document.querySelector(".form--login");
 const $e69319f6da3eb3f2$var$singUpForm = document.querySelector(".form--signup");
+const $e69319f6da3eb3f2$var$forgotPasswordForm = document.querySelector(".form--forgotPassword");
+const $e69319f6da3eb3f2$var$recoverAccountForm = document.querySelector(".form--recoverAccount");
 const $e69319f6da3eb3f2$var$logOutBtn = document.querySelector(".nav__el--logout");
 const $e69319f6da3eb3f2$var$userDataForm = document.querySelector(".form-user-data");
 const $e69319f6da3eb3f2$var$userPasswordForm = document.querySelector(".form-user-password");
@@ -199,6 +241,18 @@ if ($e69319f6da3eb3f2$var$loginForm) $e69319f6da3eb3f2$var$loginForm.addEventLis
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     (0, $d77c3630eda1238d$export$596d806903d1f59e)(email, password);
+});
+if ($e69319f6da3eb3f2$var$forgotPasswordForm) $e69319f6da3eb3f2$var$forgotPasswordForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    (0, $d77c3630eda1238d$export$66791fb2cfeec3e)(email);
+});
+if ($e69319f6da3eb3f2$var$recoverAccountForm) $e69319f6da3eb3f2$var$recoverAccountForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const password = document.getElementById("password").value;
+    const passwordConfirm = document.getElementById("passwordConfirm").value;
+    const token = window.location.href.split("/").at(-1);
+    (0, $d77c3630eda1238d$export$5e6ce816cc4182a)(password, passwordConfirm, token);
 });
 if ($e69319f6da3eb3f2$var$logOutBtn) $e69319f6da3eb3f2$var$logOutBtn.addEventListener("click", (0, $d77c3630eda1238d$export$a0973bcfe11b05c9));
 if ($e69319f6da3eb3f2$var$userDataForm) $e69319f6da3eb3f2$var$userDataForm.addEventListener("submit", function(e) {
